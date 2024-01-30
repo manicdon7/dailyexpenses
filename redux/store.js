@@ -1,16 +1,28 @@
-import { createStore, applyMiddleware } from 'redux';
-import { persistStore, persistReducer } from 'redux-persist';
-import storage from '@react-native-async-storage/async-storage';
-import thunk from 'redux-thunk';
-import rootReducer from './reducers';
+// store.js
+import { createStore } from 'redux';
 
-const persistConfig = {
-  key: 'root',
-  storage: storage,
-  timeout: 3600000,
+const initialState = {
+  expenses: [],
+  income: [],
 };
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+const rootReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case 'ADD_EXPENSE':
+      return {
+        ...state,
+        expenses: [...state.expenses, action.payload],
+      };
+    case 'ADD_INCOME':
+      return {
+        ...state,
+        income: [...state.income, action.payload],
+      };
+    default:
+      return state;
+  }
+};
 
-export const store = createStore(persistedReducer, applyMiddleware(thunk));
-export const persistor = persistStore(store);
+const store = createStore(rootReducer);
+
+export default store;
