@@ -7,7 +7,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "build": "eas build --platform android"
+    "build": "eas build --platform android --profile preview"
   },
   "dependencies": {
     "@babel/preset-env": "^7.23.9",

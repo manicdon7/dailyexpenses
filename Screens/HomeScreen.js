@@ -21,6 +21,9 @@ const HomeScreen = () => {
   const [incomeList, setIncomeList] = useState([]);
   const [expensesSummary, setExpensesSummary] = useState(null);
   const [note, setNote] = useState('');
+  const [expenseNote, setExpenseNote] = useState('');
+  const [incomeNote, setIncomeNote] = useState('');
+
 
   const STORAGE_KEY = '@DailyExpenses:data';
   const MONTH_IN_MILLISECONDS = 30 * 24 * 60 * 60 * 1000;
@@ -87,20 +90,21 @@ const HomeScreen = () => {
   const handleAddExpense = () => {
     const expenseValue = parseFloat(expense);
     if (!isNaN(expenseValue) && Number.isInteger(expenseValue)) {
-      setExpensesList([...expensesList, { date: selectedDate, amount: expenseValue, note }]);
+      setExpensesList([...expensesList, { date: selectedDate, amount: expenseValue, note: expenseNote }]);
       setExpense('');
-      setNote(''); // Clear note after adding
+      setExpenseNote(''); // Clear note after adding
     } else {
       Alert.alert('Error', 'Please enter a valid integer expense amount.');
     }
   };
 
+
   const handleAddIncome = () => {
     const incomeValue = parseFloat(income);
     if (!isNaN(incomeValue) && Number.isInteger(incomeValue)) {
-      setIncomeList([...incomeList, { date: selectedDate, amount: incomeValue, note }]);
+      setIncomeList([...incomeList, { date: selectedDate, amount: incomeValue, note: incomeNote }]);
       setIncome('');
-      setNote(''); // Clear note after adding
+      setIncomeNote(''); // Clear note after adding
     } else {
       Alert.alert('Error', 'Please enter a valid integer income amount.');
     }
@@ -179,7 +183,7 @@ const HomeScreen = () => {
               alignSelf: 'center',
             }}
           >
-          
+
             <StyledText style={{ color: 'white' }}>Show Date</StyledText>
           </TouchableOpacity>
           <StyledView className="m-4">
@@ -208,8 +212,8 @@ const HomeScreen = () => {
           <StyledTextInput
             className="bg-green-100 px-4 py-2 mx-4 rounded-xl"
             placeholder="Enter Note (Optional)"
-            value={note}
-            onChangeText={(text) => setNote(text)}
+            value={incomeNote}
+            onChangeText={(text) => setIncomeNote(text)}
           />
         </StyledView>
         <StyledView className="mx-10 pt-4">
@@ -229,18 +233,21 @@ const HomeScreen = () => {
           <StyledText className="px-4 py-2 text-xl">Income List</StyledText>
         </StyledView>
         {incomeList.map((incomeItem, index) => (
-          <StyledView key={index} className="flex-row items-center justify-between px-4 py-2 mx-4 bg-white rounded-md my-2">
-            <StyledText>{`${incomeItem.date}: ${incomeItem.amount}`}</StyledText>
-            <StyledView className="bg-yellow-100 px-4 py-2 rounded-md">
-              <StyledText className="whitespace-nowrap overflow-hidden overflow-ellipsis">
-                {`Note: ${incomeItem.note || '-'}`}
-              </StyledText>
+          <StyledView key={index} className="flex flex-col sm:flex-row items-start sm:items-center justify-between px-4 py-2 mx-4 bg-white rounded-md my-2">
+            <StyledView className="flex-1">
+              <StyledText className="mb-2 sm:mb-0">{`${incomeItem.date}: ${incomeItem.amount}`}</StyledText>
+              <StyledView className="bg-yellow-100 px-4 py-2 rounded-md">
+                <StyledText className="whitespace-nowrap overflow-hidden overflow-ellipsis">
+                  {`Note: ${incomeItem.note || '-'}`}
+                </StyledText>
+              </StyledView>
             </StyledView>
             <TouchableOpacity onPress={() => handleDeleteIncome(index)}>
-              <StyledText style={{ color: 'red' }}>Delete</StyledText>
+              <StyledText className="text-red-500">Delete</StyledText>
             </TouchableOpacity>
           </StyledView>
         ))}
+
 
         <StyledView>
           <StyledText className="px-4 py-2 text-xl">Add Expenses</StyledText>
@@ -256,8 +263,8 @@ const HomeScreen = () => {
           <StyledTextInput
             className="bg-red-100 px-4 py-2 mx-4 rounded-xl"
             placeholder="Enter Note (Optional)"
-            value={note}
-            onChangeText={(text) => setNote(text)}
+            value={expenseNote}
+            onChangeText={(text) => setExpenseNote(text)}
           />
         </StyledView>
         <StyledView className="mx-10 mt-4">
@@ -278,21 +285,20 @@ const HomeScreen = () => {
           <StyledText className="px-4 py-2 text-xl">Expenses List</StyledText>
         </StyledView>
         {expensesList.map((expenseItem, index) => (
-          <StyledView key={index} className="flex-row items-center justify-between px-4 py-2 mx-4 bg-white rounded-md my-2">
-            <StyledText>{`${expenseItem.date}: ${expenseItem.amount}`}</StyledText>
-            <StyledView className="bg-red-100 px-4 py-2 rounded-md"><br/>
-              <StyledText className="whitespace-nowrap overflow-hidden overflow-ellipsis">
-                {`Note: ${expenseItem.note || '-'}`}
-              </StyledText>
+          <StyledView key={index} className="flex flex-col sm:flex-row items-start sm:items-center justify-between px-4 py-2 mx-4 bg-white rounded-md my-2">
+            <StyledView className="flex-1">
+              <StyledText className="mb-2 sm:mb-0">{`${expenseItem.date}: ${expenseItem.amount}`}</StyledText>
+              <StyledView className="bg-red-100 px-4 py-2 rounded-md">
+                <StyledText className="whitespace-normal break-words">
+                  {`Note: ${expenseItem.note || '-'}`}
+                </StyledText>
+              </StyledView>
             </StyledView>
             <TouchableOpacity onPress={() => handleDeleteExpense(index)}>
-              <StyledText style={{ color: 'red' }}>Delete</StyledText>
+              <StyledText className="text-red-500">Delete</StyledText>
             </TouchableOpacity>
           </StyledView>
         ))}
-
-
-
         <StyledView>
           <StyledText className="px-4 py-2 text-xl">Balance</StyledText>
         </StyledView>
