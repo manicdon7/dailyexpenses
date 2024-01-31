@@ -231,12 +231,17 @@ const HomeScreen = () => {
         {incomeList.map((incomeItem, index) => (
           <StyledView key={index} className="flex-row items-center justify-between px-4 py-2 mx-4 bg-white rounded-md my-2">
             <StyledText>{`${incomeItem.date}: ${incomeItem.amount}`}</StyledText>
-            <StyledText>{`Note: ${incomeItem.note || '-'}`}</StyledText>
+            <StyledView className="bg-yellow-100 px-4 py-2 rounded-md">
+              <StyledText className="whitespace-nowrap overflow-hidden overflow-ellipsis">
+                {`Note: ${incomeItem.note || '-'}`}
+              </StyledText>
+            </StyledView>
             <TouchableOpacity onPress={() => handleDeleteIncome(index)}>
               <StyledText style={{ color: 'red' }}>Delete</StyledText>
             </TouchableOpacity>
           </StyledView>
         ))}
+
         <StyledView>
           <StyledText className="px-4 py-2 text-xl">Add Expenses</StyledText>
         </StyledView>
@@ -275,12 +280,17 @@ const HomeScreen = () => {
         {expensesList.map((expenseItem, index) => (
           <StyledView key={index} className="flex-row items-center justify-between px-4 py-2 mx-4 bg-white rounded-md my-2">
             <StyledText>{`${expenseItem.date}: ${expenseItem.amount}`}</StyledText>
-            <StyledText>{`Note: ${expenseItem.note || '-'}`}</StyledText>
+            <StyledView className="bg-red-100 px-4 py-2 rounded-md"><br/>
+              <StyledText className="whitespace-nowrap overflow-hidden overflow-ellipsis">
+                {`Note: ${expenseItem.note || '-'}`}
+              </StyledText>
+            </StyledView>
             <TouchableOpacity onPress={() => handleDeleteExpense(index)}>
               <StyledText style={{ color: 'red' }}>Delete</StyledText>
             </TouchableOpacity>
           </StyledView>
         ))}
+
 
 
         <StyledView>
